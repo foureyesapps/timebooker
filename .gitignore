@@ -106,3 +106,4 @@ dist
 # Other
 .idea
 venv
+naosei/__pycache__
