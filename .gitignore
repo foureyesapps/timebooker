@@ -107,3 +107,4 @@ dist
 .idea
 venv
 naosei/__pycache__
+naosei/tests/__pycache__
