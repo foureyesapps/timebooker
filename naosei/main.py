@@ -1,9 +1,7 @@
 import uvicorn
-import models
-import schemas
+from . import models, schemas
 from fastapi import FastAPI, status, Response, HTTPException, Depends
-from fastapi.encoders import jsonable_encoder
-from database import engine, SessionLocal
+from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
 
 app = FastAPI()
@@ -16,6 +14,11 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+@app.get('/health', status_code=status.HTTP_200_OK)
+def health():
+    return {'status': 'OK'}
 
 
 @app.post('/user', status_code=status.HTTP_201_CREATED)
@@ -43,8 +46,8 @@ def update(id, request: schemas.User, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id)
     if not user.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
-
-
+    user.update(request.dict())
+    db.commit()
 
 
 @app.get('/user')
@@ -60,6 +63,5 @@ def get_user(id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
     return user
 
-
-if __name__ == '__main__':
-    uvicorn.run(app, host='127.0.0.1', port=8000)
+# if __name__ == '__main__':
+#     uvicorn.run(app, host='127.0.0.1', port=8000)
