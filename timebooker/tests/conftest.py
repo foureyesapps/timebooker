@@ -1,6 +1,6 @@
 import logging
 from fastapi.testclient import TestClient
-from naosei.main import app, get_settings
+from timebooker.main import app, get_settings
 from ..config import Settings
 
 logger = logging.getLogger(__name__)
@@ -11,7 +11,7 @@ def get_settings_override():
     test_settings = {
         'app_name': 'Não Sei APP Test',
         'admin_email': 'test@test.com',
-        'sqlalchemy_database_url': 'sqlite:///../naosei_test.db'
+        'sqlalchemy_database_url': 'sqlite:///../timebooker_test.db'
     }
     return Settings(**test_settings)
 

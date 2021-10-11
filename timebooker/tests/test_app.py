@@ -1,5 +1,5 @@
 # from fastapi.testclient import TestClient
-# from naosei.main import app
+# from timebooker.main import app
 #
 # client = TestClient(app)
 
@@ -18,5 +18,5 @@ def test_app_info():
     assert response.json() == {
         'app_name': 'Não Sei APP Test',
         'admin_email': 'test@test.com',
-        'sqlalchemy_database_url': 'sqlite:///../naosei_test.db'
+        'sqlalchemy_database_url': 'sqlite:///../timebooker_test.db'
     }

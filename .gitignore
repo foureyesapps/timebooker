@@ -106,5 +106,7 @@ dist
 # Other
 .idea
 venv
-naosei/__pycache__
-naosei/tests/__pycache__
+timebooker/__pycache__
+timebooker/tests/__pycache__
+timebooker/.DS_Store
+.DS_Store
