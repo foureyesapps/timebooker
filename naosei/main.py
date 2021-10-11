@@ -1,11 +1,17 @@
-import uvicorn
-from . import models, schemas
+from functools import lru_cache
+from . import models, schemas, config
 from fastapi import FastAPI, status, Response, HTTPException, Depends
 from .database import engine, SessionLocal
+from .config import Settings
 from sqlalchemy.orm import Session
 
 app = FastAPI()
 models.Base.metadata.create_all(engine)
+
+
+@lru_cache()
+def get_settings():
+    return config.Settings()
 
 
 def get_db():
@@ -19,6 +25,15 @@ def get_db():
 @app.get('/health', status_code=status.HTTP_200_OK)
 def health():
     return {'status': 'OK'}
+
+
+@app.get('/info')
+def get_app_info(settings: Settings = Depends(get_settings)):
+    return {
+        'app_name': settings.app_name,
+        'admin_email': settings.admin_email,
+        'sqlalchemy_database_url': settings.sqlalchemy_database_url
+    }
 
 
 @app.post('/user', status_code=status.HTTP_201_CREATED)

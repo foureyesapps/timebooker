@@ -4,3 +4,5 @@ pydantic~=1.8.2
 sqlalchemy
 pytest
 requests
+python-dotenv
+flake8
