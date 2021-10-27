@@ -1,17 +1,11 @@
-from functools import lru_cache
-from . import models, schemas, config
+from . import models, schemas
 from fastapi import FastAPI, status, Response, HTTPException, Depends
 from .database import engine, SessionLocal
-from .config import Settings
+from .config import Settings, get_settings
 from sqlalchemy.orm import Session
 
 app = FastAPI()
 models.Base.metadata.create_all(engine)
-
-
-@lru_cache()
-def get_settings():
-    return config.Settings()
 
 
 def get_db():
@@ -50,7 +44,8 @@ def create(request: schemas.User, db: Session = Depends(get_db)):
 def delete(id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id)
     if not user.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
     user.delete(synchronize_session=False)
     db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
@@ -60,7 +55,8 @@ def delete(id: int, db: Session = Depends(get_db)):
 def update(id, request: schemas.User, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id)
     if not user.first():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
     user.update(request.dict())
     db.commit()
 
@@ -75,7 +71,8 @@ def get_all_users(db: Session = Depends(get_db)):
 def get_user(id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
     return user
 
 # if __name__ == '__main__':
