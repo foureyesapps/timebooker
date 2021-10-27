@@ -9,7 +9,7 @@ app = FastAPI()
 models.Base.metadata.create_all(engine)
 
 
-@app.get('/health', status_code=status.HTTP_200_OK)
+@app.get('/', status_code=status.HTTP_200_OK)
 def health():
     return {'status': "It's working ✨"}
 
