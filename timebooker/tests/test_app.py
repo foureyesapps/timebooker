@@ -1,19 +1,11 @@
-# from fastapi.testclient import TestClient
-# from timebooker.main import app
-#
-# client = TestClient(app)
-
-from .conftest import client
-
-
-def test_health_check():
-    response = client.get("/health")
+def test_health_check(test_client):
+    response = test_client.get("/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "OK"}
+    assert response.json() == {"status": "It's working ✨"}
 
 
-def test_app_info():
-    response = client.get('/info')
+def test_app_info(test_client):
+    response = test_client.get('/info')
     assert response.status_code == 200
     assert response.json() == {
         'app_name': 'Não Sei APP Test',
