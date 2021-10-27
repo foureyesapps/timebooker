@@ -1,5 +1,4 @@
 from .conftest import client
-import pytest
 
 
 def test_create_user():
