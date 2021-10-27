@@ -1,24 +1,17 @@
-from . import models, schemas
 from fastapi import FastAPI, status, Response, HTTPException, Depends
-from .database import engine, SessionLocal
-from .config import Settings, get_settings
 from sqlalchemy.orm import Session
+from . import models, schemas
+from .database import engine, get_db
+from .config import Settings, get_settings
+
 
 app = FastAPI()
 models.Base.metadata.create_all(engine)
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
 @app.get('/health', status_code=status.HTTP_200_OK)
 def health():
-    return {'status': 'OK'}
+    return {'status': "It's working ✨"}
 
 
 @app.get('/info')
@@ -74,6 +67,3 @@ def get_user(id: int, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
     return user
-
-# if __name__ == '__main__':
-#     uvicorn.run(app, host='127.0.0.1', port=8000)
