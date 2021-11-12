@@ -1,7 +1,7 @@
 [![Python application](https://github.com/foureyesapps/timebooker/actions/workflows/python-app.yml/badge.svg)](https://github.com/foureyesapps/timebooker/actions/workflows/python-app.yml)
 # Time Booker
 
-Heroku Deployment: https://timebooker-prod.herokuapp.com
+Heroku Deployment: https://timebooker-prod.herokuapp.com/docs
 ### Install
 
 1. Create a virtualenv
